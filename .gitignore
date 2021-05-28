@@ -1,3 +1,6 @@
 weights/*.pth
 result
 .idea
+net_dbis
+test_metapath.txt
+features/graph_metapath.txt
