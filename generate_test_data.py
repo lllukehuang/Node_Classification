@@ -1,8 +1,21 @@
 import torch
+import torch.nn as nn
 import numpy as np
 import pandas as pd
+from models import SimpleFeatureExtractor,LogReg
 
-weight_path = 'weights/test6.pth'
+class SimpleClassifier(nn.Module):
+    def __init__(self, n_in, n_h, nb_classes):
+        super(SimpleClassifier, self).__init__()
+        self.fc = SimpleFeatureExtractor(n_in, n_h)
+        self.out = LogReg(n_h, nb_classes)
+
+    def forward(self, input_data):
+        h = self.fc(input_data)
+        res = self.out(h)
+        return res
+
+weight_path = 'weights/test7.pth'
 model = torch.load(weight_path)
 
 feature_dict = {}
@@ -75,4 +88,4 @@ with open('papers_to_pred.txt','r') as f:
         csv_list.append(cur_dict)
 
 df = pd.DataFrame(csv_list,columns=["author_id","labels"])
-df.to_csv("result/test3.csv",index=False)
+df.to_csv("result/test6.csv",index=False)
