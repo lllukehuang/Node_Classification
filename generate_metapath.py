@@ -15,19 +15,19 @@ class MetaPathGenerator:
             for line in f.readlines():
                 split_content = line.split(' ')
                 # print(split_content)
-                cur_author_id = int(split_content[0])
-                self.author_to_paper[cur_author_id] = [int(split_content[1])]
+                cur_author_id = split_content[0]+"a"
+                self.author_to_paper[cur_author_id] = [split_content[1]+"p"]
                 for feat_num in split_content[2:-1]:
-                    self.author_to_paper[cur_author_id].append(int(feat_num))
+                    self.author_to_paper[cur_author_id].append(feat_num+"p")
 
         with open('all_paper_to_authors.txt','r') as f:
             for line in f.readlines():
                 split_content = line.split(' ')
                 # print(split_content)
-                cur_paper_id = int(split_content[0])
-                self.paper_to_author[cur_paper_id] = [int(split_content[1])]
+                cur_paper_id = split_content[0]+"p"
+                self.paper_to_author[cur_paper_id] = [split_content[1]+"a"]
                 for feat_num in split_content[2:-1]:
-                    self.paper_to_author[cur_paper_id].append(int(feat_num))
+                    self.paper_to_author[cur_paper_id].append(feat_num+"a")
 
     def generate_random_aca(self, outfilename, numwalks, walklength):
 
@@ -59,9 +59,9 @@ class MetaPathGenerator:
 # dirpath = "net_dbis"
 dirpath = '.'
 # numwalks = int(sys.argv[1])
-numwalks = 100 # 每个节点所随机游走的次数
+numwalks = 10 # 每个节点所随机游走的次数
 # walklength = int(sys.argv[2])
-walklength = 20 # 每次走的总长度 (conf 起头, 一次：走两个节点（author conf）)
+walklength = 5 # 每次走的总长度 (conf 起头, 一次：走两个节点（author conf）)
 
 # dirpath = sys.argv[3]
 # outfilename = sys.argv[4]

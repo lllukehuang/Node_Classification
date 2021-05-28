@@ -39,7 +39,7 @@ print(trY.shape)
 
 NUM_FEATURE = 197
 # NUM_FEATURE = 128
-NUM_HIDDEN = 100
+NUM_HIDDEN = 250
 
 class SimpleClassifier(nn.Module):
     def __init__(self, n_in, n_h, nb_classes):
@@ -85,6 +85,6 @@ for epoch in range(EPOCH_NUM):
     loss = loss_fn(model(trX),trY).item()
     print("Epoch:",epoch,"Loss:",loss)
     if epoch % 1000 == 999:
-        torch.save(model, 'weights/test8_'+str(epoch)+".pth")
+        torch.save(model, 'weights/test9_'+str(epoch)+".pth")
 
-torch.save(model,'weights/test8.pth')
+torch.save(model,'weights/test9.pth')
