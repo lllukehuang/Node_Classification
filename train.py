@@ -85,6 +85,6 @@ for epoch in range(EPOCH_NUM):
     loss = loss_fn(model(trX),trY).item()
     print("Epoch:",epoch,"Loss:",loss)
     if epoch % 1000 == 999:
-        torch.save(model, 'weights/test10_'+str(epoch)+".pth")
+        torch.save(model, 'weights/test11_'+str(epoch)+".pth")
 
-torch.save(model,'weights/test10.pth')
+torch.save(model,'weights/test11.pth')
