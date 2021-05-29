@@ -5,7 +5,7 @@ from models import SimpleFeatureExtractor, LogReg
 
 # get the feature
 feature_dict = {}
-with open('features/total_feature_new.txt', 'r') as f:
+with open('features/total_feature_meta.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         # print(split_content)
@@ -37,7 +37,7 @@ trY = torch.LongTensor(get_labels())
 print(trX.shape)
 print(trY.shape)
 
-NUM_FEATURE = 197
+NUM_FEATURE = 256
 # NUM_FEATURE = 128
 NUM_HIDDEN = 250
 
@@ -66,7 +66,7 @@ model = SimpleClassifier(NUM_FEATURE,NUM_HIDDEN,10)
 # 定义loss和优化器
 loss_fn = torch.nn.CrossEntropyLoss()
 # optimizer = torch.optim.SGD(model.parameters(),lr=0.005)
-optimizer = torch.optim.Adam(model.parameters(),lr=0.001)
+optimizer = torch.optim.Adam(model.parameters(),lr=0.0001)
 
 # 开始训练
 BATCH_SIZE = 64 # 批处理量
@@ -85,6 +85,6 @@ for epoch in range(EPOCH_NUM):
     loss = loss_fn(model(trX),trY).item()
     print("Epoch:",epoch,"Loss:",loss)
     if epoch % 1000 == 999:
-        torch.save(model, 'weights/test9_'+str(epoch)+".pth")
+        torch.save(model, 'weights/test10_'+str(epoch)+".pth")
 
-torch.save(model,'weights/test9.pth')
+torch.save(model,'weights/test10.pth')

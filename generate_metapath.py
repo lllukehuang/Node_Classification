@@ -15,39 +15,56 @@ class MetaPathGenerator:
             for line in f.readlines():
                 split_content = line.split(' ')
                 # print(split_content)
-                cur_author_id = split_content[0]+"a"
-                self.author_to_paper[cur_author_id] = [split_content[1]+"p"]
+                cur_author_id = "a"+split_content[0]
+                self.author_to_paper[cur_author_id] = ["v"+split_content[1]]
                 for feat_num in split_content[2:-1]:
-                    self.author_to_paper[cur_author_id].append(feat_num+"p")
+                    self.author_to_paper[cur_author_id].append("v"+feat_num)
 
         with open('all_paper_to_authors.txt','r') as f:
             for line in f.readlines():
                 split_content = line.split(' ')
                 # print(split_content)
-                cur_paper_id = split_content[0]+"p"
-                self.paper_to_author[cur_paper_id] = [split_content[1]+"a"]
+                cur_paper_id = "v"+split_content[0]
+                self.paper_to_author[cur_paper_id] = ["a"+split_content[1]]
                 for feat_num in split_content[2:-1]:
-                    self.paper_to_author[cur_paper_id].append(feat_num+"a")
+                    self.paper_to_author[cur_paper_id].append("a"+feat_num)
 
     def generate_random_aca(self, outfilename, numwalks, walklength):
 
         outfile = open(outfilename, 'w', encoding='utf-8')
-        for author in tqdm(self.author_to_paper):
-            author0 = author
+        # 更换思路： 需要获取每个paper的path 应以paper为起点
+        for paper in tqdm(self.paper_to_author):
+            paper0 = paper
             for j in range(0, numwalks):  # wnum walks
-                outline = str(author0)
+                outline = str(paper0)
                 for i in range(0, walklength):
-                    papers = self.author_to_paper[author]
-                    numa = len(papers)
-                    paperid = random.randrange(numa)
-                    paper = papers[paperid]
-                    outline += " " + str(paper)
                     authors = self.paper_to_author[paper]
                     numc = len(authors)
                     authorid = random.randrange(numc)
                     author = authors[authorid]
                     outline += " " + str(author)
+                    papers = self.author_to_paper[author]
+                    numa = len(papers)
+                    paperid = random.randrange(numa)
+                    paper = papers[paperid]
+                    outline += " " + str(paper)
                 outfile.write(outline + "\n")
+        # for author in tqdm(self.author_to_paper):
+        #     author0 = author
+        #     for j in range(0, numwalks):  # wnum walks
+        #         outline = str(author0)
+        #         for i in range(0, walklength):
+        #             papers = self.author_to_paper[author]
+        #             numa = len(papers)
+        #             paperid = random.randrange(numa)
+        #             paper = papers[paperid]
+        #             outline += " " + str(paper)
+        #             authors = self.paper_to_author[paper]
+        #             numc = len(authors)
+        #             authorid = random.randrange(numc)
+        #             author = authors[authorid]
+        #             outline += " " + str(author)
+        #         outfile.write(outline + "\n")
         outfile.close()
 
 
@@ -59,16 +76,16 @@ class MetaPathGenerator:
 # dirpath = "net_dbis"
 dirpath = '.'
 # numwalks = int(sys.argv[1])
-# numwalks = 10 # 每个节点所随机游走的次数
-numwalks = 2 # 每个节点所随机游走的次数
+numwalks = 10 # 每个节点所随机游走的次数
+# numwalks = 1 # 每个节点所随机游走的次数
 # walklength = int(sys.argv[2])
-# walklength = 5 # 每次走的总长度 (conf 起头, 一次：走两个节点（author conf）)
-walklength = 3 # 每次走的总长度 (conf 起头, 一次：走两个节点（author conf）)
+walklength = 5 # 每次走的总长度 (conf 起头, 一次：走两个节点（author conf）)
+# walklength = 1 # 每次走的总长度 (conf 起头, 一次：走两个节点（author conf）)
 
 # dirpath = sys.argv[3]
 # outfilename = sys.argv[4]
 # outfilename = "test_metapath.txt"
-outfilename = "features/graph_metapath_t.txt"
+outfilename = "features/graph_metapath_new_ver_papers.txt"
 
 
 def main():
