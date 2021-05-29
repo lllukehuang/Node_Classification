@@ -59,14 +59,16 @@ class MetaPathGenerator:
 # dirpath = "net_dbis"
 dirpath = '.'
 # numwalks = int(sys.argv[1])
-numwalks = 10 # 每个节点所随机游走的次数
+# numwalks = 10 # 每个节点所随机游走的次数
+numwalks = 2 # 每个节点所随机游走的次数
 # walklength = int(sys.argv[2])
-walklength = 5 # 每次走的总长度 (conf 起头, 一次：走两个节点（author conf）)
+# walklength = 5 # 每次走的总长度 (conf 起头, 一次：走两个节点（author conf）)
+walklength = 3 # 每次走的总长度 (conf 起头, 一次：走两个节点（author conf）)
 
 # dirpath = sys.argv[3]
 # outfilename = sys.argv[4]
 # outfilename = "test_metapath.txt"
-outfilename = "features/graph_metapath.txt"
+outfilename = "features/graph_metapath_t.txt"
 
 
 def main():

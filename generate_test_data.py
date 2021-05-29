@@ -15,7 +15,7 @@ class SimpleClassifier(nn.Module):
         res = self.out(h)
         return res
 
-weight_path = 'weights/test9_1999.pth'
+weight_path = 'weights/test9_4999.pth'
 model = torch.load(weight_path)
 
 feature_dict = {}
@@ -30,12 +30,12 @@ with open('features/total_feature_new.txt', 'r') as f:
         for feat_num in split_content[2:-1]:
             feature_dict[cur_paper_id].append(float(feat_num))
 
-# true_labels = {}
-# with open('labels.txt','r') as f:
-#     for line in f.readlines():
-#         split_content = line.split(' ')
-#         cur_paper_id = int(split_content[0])
-#         true_labels[cur_paper_id] = int(split_content[1])
+true_labels = {}
+with open('labels.txt','r') as f:
+    for line in f.readlines():
+        split_content = line.split(' ')
+        cur_paper_id = int(split_content[0])
+        true_labels[cur_paper_id] = int(split_content[1])
 
 def get_feature(index):
     global feature_dict
@@ -80,7 +80,11 @@ with open('papers_to_pred.txt','r') as f:
         cur_author_papers = set()
         for (i, x) in predictions:
             # print(i, x)
-            cur_author_papers.add(x)
+            # print(i) # 当前检测paper
+            if i < 4844:
+                cur_author_papers.add(true_labels[i])
+            else:
+                cur_author_papers.add(x)
         res = ''
         for i in cur_author_papers:
             res += str(i) + " "
@@ -88,4 +92,4 @@ with open('papers_to_pred.txt','r') as f:
         csv_list.append(cur_dict)
 
 df = pd.DataFrame(csv_list,columns=["author_id","labels"])
-df.to_csv("result/test8.csv",index=False)
+df.to_csv("result/test9.csv",index=False)
