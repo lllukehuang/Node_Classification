@@ -5,7 +5,7 @@ from models import SimpleFeatureExtractor, LogReg
 
 # get the feature
 feature_dict = {}
-with open('features/total_feature_all_meta_256.txt', 'r') as f:
+with open('features/total_feature_all_meta_512.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         # print(split_content)
@@ -37,9 +37,9 @@ trY = torch.LongTensor(get_labels())
 print(trX.shape)
 print(trY.shape)
 
-NUM_FEATURE = 256
+NUM_FEATURE = 512
 # NUM_FEATURE = 128
-NUM_HIDDEN = 300
+NUM_HIDDEN = 1024
 
 class SimpleClassifier(nn.Module):
     def __init__(self, n_in, n_h, nb_classes):
@@ -85,6 +85,6 @@ for epoch in range(EPOCH_NUM):
     loss = loss_fn(model(trX),trY).item()
     print("Epoch:",epoch,"Loss:",loss)
     if epoch % 100 == 99:
-        torch.save(model, 'weights/test13_'+str(epoch)+".pth")
+        torch.save(model, 'weights/test15_'+str(epoch)+".pth")
 
-torch.save(model,'weights/test13.pth')
+torch.save(model,'weights/test15.pth')
