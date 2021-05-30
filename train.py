@@ -5,7 +5,7 @@ from models import SimpleFeatureExtractor, LogReg
 
 # get the feature
 feature_dict = {}
-with open('features/total_feature_meta.txt', 'r') as f:
+with open('features/total_feature_all_meta_256.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         # print(split_content)
@@ -39,7 +39,7 @@ print(trY.shape)
 
 NUM_FEATURE = 256
 # NUM_FEATURE = 128
-NUM_HIDDEN = 250
+NUM_HIDDEN = 300
 
 class SimpleClassifier(nn.Module):
     def __init__(self, n_in, n_h, nb_classes):
@@ -84,7 +84,7 @@ for epoch in range(EPOCH_NUM):
     # 计算当前批次产生的loss
     loss = loss_fn(model(trX),trY).item()
     print("Epoch:",epoch,"Loss:",loss)
-    if epoch % 1000 == 999:
-        torch.save(model, 'weights/test11_'+str(epoch)+".pth")
+    if epoch % 100 == 99:
+        torch.save(model, 'weights/test13_'+str(epoch)+".pth")
 
-torch.save(model,'weights/test11.pth')
+torch.save(model,'weights/test13.pth')

@@ -9,6 +9,7 @@ class MetaPathGenerator:
     def __init__(self):
         self.author_to_paper = dict()
         self.paper_to_author = dict()
+        self.paper_to_paper = dict()
 
     def read_data(self, dirpath):
         with open('all_author_to_papers.txt','r') as f:
@@ -29,6 +30,15 @@ class MetaPathGenerator:
                 for feat_num in split_content[2:-1]:
                     self.paper_to_author[cur_paper_id].append("a"+feat_num)
 
+        with open('features/all_paper_reference.txt','r') as f:
+            for line in f.readlines():
+                split_content = line.split(' ')
+                # print(split_content)
+                cur_paper_id = "v"+split_content[0]
+                self.paper_to_paper[cur_paper_id] = ["v"+split_content[1]]
+                for feat_num in split_content[2:-1]:
+                    self.paper_to_paper[cur_paper_id].append("v"+feat_num)
+
     def generate_random_aca(self, outfilename, numwalks, walklength):
 
         outfile = open(outfilename, 'w', encoding='utf-8')
@@ -44,6 +54,27 @@ class MetaPathGenerator:
                     author = authors[authorid]
                     outline += " " + str(author)
                     papers = self.author_to_paper[author]
+                    numa = len(papers)
+                    paperid = random.randrange(numa)
+                    paper = papers[paperid]
+                    outline += " " + str(paper)
+                outfile.write(outline + "\n")
+
+        # 生成paper -> paper metapath 孤立点指向自己
+        numwalks1 = 10
+        walklength1 = 5
+
+        for paper in tqdm(self.paper_to_paper):
+            paper0 = paper
+            for j in range(0, numwalks1):  # wnum walks
+                outline = str(paper0)
+                for i in range(0, walklength1):
+                    # authors = self.paper_to_author[paper]
+                    # numc = len(authors)
+                    # authorid = random.randrange(numc)
+                    # author = authors[authorid]
+                    # outline += " " + str(author)
+                    papers = self.paper_to_paper[paper]
                     numa = len(papers)
                     paperid = random.randrange(numa)
                     paper = papers[paperid]
@@ -85,7 +116,7 @@ walklength = 5 # 每次走的总长度 (conf 起头, 一次：走两个节点（
 # dirpath = sys.argv[3]
 # outfilename = sys.argv[4]
 # outfilename = "test_metapath.txt"
-outfilename = "features/graph_metapath_new_ver_papers.txt"
+outfilename = "features/graph_metapath_total_v1.txt"
 
 
 def main():
