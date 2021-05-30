@@ -4,3 +4,4 @@ result
 net_dbis
 test_metapath.txt
 features/graph_metapath.txt
+__pycache__
