@@ -15,11 +15,11 @@ class SimpleClassifier(nn.Module):
         res = self.out(h)
         return res
 
-weight_path = 'weights/test14_299.pth'
+weight_path = 'weights/test17_99.pth'
 model = torch.load(weight_path)
 
 feature_dict = {}
-with open('features/total_feature_all_meta_512.txt', 'r') as f:
+with open('features/total_feature_all_meta_512_AB.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         # print(split_content)
@@ -97,6 +97,6 @@ with open('papers_to_pred.txt','r') as f:
         csv_list.append(cur_dict)
 
 df = pd.DataFrame(csv_list,columns=["author_id","labels"])
-df.to_csv("result/test16.csv",index=False)
+df.to_csv("result/test18.csv",index=False)
 print(true_num)
 print(pred_num)

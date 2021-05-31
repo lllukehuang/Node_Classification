@@ -62,7 +62,7 @@ class MetaPathGenerator:
 
         # 生成paper -> paper metapath 孤立点指向自己
         numwalks1 = 10
-        walklength1 = 10
+        walklength1 = 5
 
         for paper in tqdm(self.paper_to_paper):
             paper0 = paper
@@ -80,22 +80,24 @@ class MetaPathGenerator:
                     paper = papers[paperid]
                     outline += " " + str(paper)
                 outfile.write(outline + "\n")
-        # for author in tqdm(self.author_to_paper):
-        #     author0 = author
-        #     for j in range(0, numwalks):  # wnum walks
-        #         outline = str(author0)
-        #         for i in range(0, walklength):
-        #             papers = self.author_to_paper[author]
-        #             numa = len(papers)
-        #             paperid = random.randrange(numa)
-        #             paper = papers[paperid]
-        #             outline += " " + str(paper)
-        #             authors = self.paper_to_author[paper]
-        #             numc = len(authors)
-        #             authorid = random.randrange(numc)
-        #             author = authors[authorid]
-        #             outline += " " + str(author)
-        #         outfile.write(outline + "\n")
+
+        # A->B->A B->A->B
+        for author in tqdm(self.author_to_paper):
+            author0 = author
+            for j in range(0, numwalks):  # wnum walks
+                outline = str(author0)
+                for i in range(0, walklength):
+                    papers = self.author_to_paper[author]
+                    numa = len(papers)
+                    paperid = random.randrange(numa)
+                    paper = papers[paperid]
+                    outline += " " + str(paper)
+                    authors = self.paper_to_author[paper]
+                    numc = len(authors)
+                    authorid = random.randrange(numc)
+                    author = authors[authorid]
+                    outline += " " + str(author)
+                outfile.write(outline + "\n")
         outfile.close()
 
 
@@ -110,13 +112,13 @@ dirpath = '.'
 numwalks = 10 # 每个节点所随机游走的次数
 # numwalks = 1 # 每个节点所随机游走的次数
 # walklength = int(sys.argv[2])
-walklength = 10 # 每次走的总长度 (conf 起头, 一次：走两个节点（author conf）)
+walklength = 5 # 每次走的总长度 (conf 起头, 一次：走两个节点（author conf）)
 # walklength = 1 # 每次走的总长度 (conf 起头, 一次：走两个节点（author conf）)
 
 # dirpath = sys.argv[3]
 # outfilename = sys.argv[4]
 # outfilename = "test_metapath.txt"
-outfilename = "features/graph_metapath_total.txt"
+outfilename = "features/graph_metapath_total_AB.txt"
 
 # total 10 5
 # total_m 50 50

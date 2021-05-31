@@ -5,7 +5,7 @@ from models import SimpleFeatureExtractor, LogReg
 
 # get the feature
 feature_dict = {}
-with open('features/total_feature_all_meta_512.txt', 'r') as f:
+with open('features/total_feature_all_meta_512_AB.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         # print(split_content)
@@ -70,7 +70,7 @@ optimizer = torch.optim.Adam(model.parameters(),lr=0.0001)
 
 # 开始训练
 BATCH_SIZE = 64 # 批处理量
-EPOCH_NUM = 10000
+EPOCH_NUM = 100
 for epoch in range(EPOCH_NUM):
     for start in range(0,len(trX),BATCH_SIZE):
         end = start + BATCH_SIZE
@@ -84,7 +84,7 @@ for epoch in range(EPOCH_NUM):
     # 计算当前批次产生的loss
     loss = loss_fn(model(trX),trY).item()
     print("Epoch:",epoch,"Loss:",loss)
-    if epoch % 100 == 99:
-        torch.save(model, 'weights/test15_'+str(epoch)+".pth")
+    if epoch % 10 == 9:
+        torch.save(model, 'weights/test17_'+str(epoch)+".pth")
 
-torch.save(model,'weights/test15.pth')
+torch.save(model,'weights/test17.pth')
