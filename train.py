@@ -5,7 +5,8 @@ from models import SimpleFeatureExtractor, LogReg
 
 # get the feature
 feature_dict = {}
-with open('features/total_feature_all_meta_512_ABC.txt', 'r') as f:
+with open('features/total_feature_all_meta_512.txt', 'r') as f:
+# with open('features/total_feature_l.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         # print(split_content)
@@ -39,16 +40,19 @@ print(trY.shape)
 
 NUM_FEATURE = 512
 # NUM_FEATURE = 128
-NUM_HIDDEN = 1024
+NUM_HIDDEN = 120
+NUM_HIDDEN1 = 84
 
 class SimpleClassifier(nn.Module):
-    def __init__(self, n_in, n_h, nb_classes):
+    def __init__(self, n_in, n_h, n_h1, nb_classes):
         super(SimpleClassifier, self).__init__()
         self.fc = SimpleFeatureExtractor(n_in, n_h)
-        self.out = LogReg(n_h, nb_classes)
+        self.fc1 = SimpleFeatureExtractor(n_h, n_h1)
+        self.out = LogReg(n_h1, nb_classes)
 
     def forward(self, input_data):
         h = self.fc(input_data)
+        h = self.fc1(h)
         res = self.out(h)
         return res
 
@@ -61,7 +65,7 @@ class SimpleClassifier(nn.Module):
 # torch.nn.init.normal_(model[0].weight)
 # torch.nn.init.normal_(model[2].weight)
 
-model = SimpleClassifier(NUM_FEATURE,NUM_HIDDEN,10)
+model = SimpleClassifier(NUM_FEATURE,NUM_HIDDEN, NUM_HIDDEN1, 10)
 
 # 定义loss和优化器
 loss_fn = torch.nn.CrossEntropyLoss()
@@ -69,8 +73,8 @@ loss_fn = torch.nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(),lr=0.0001)
 
 # 开始训练
-BATCH_SIZE = 64 # 批处理量
-EPOCH_NUM = 200
+BATCH_SIZE = 8 # 批处理量
+EPOCH_NUM = 500
 for epoch in range(EPOCH_NUM):
     for start in range(0,len(trX),BATCH_SIZE):
         end = start + BATCH_SIZE
@@ -85,6 +89,6 @@ for epoch in range(EPOCH_NUM):
     loss = loss_fn(model(trX),trY).item()
     print("Epoch:",epoch,"Loss:",loss)
     if epoch % 10 == 9:
-        torch.save(model, 'weights/test19_'+str(epoch)+".pth")
+        torch.save(model, 'weights/test21_'+str(epoch)+".pth")
 
-torch.save(model,'weights/test19.pth')
+torch.save(model,'weights/test21.pth')

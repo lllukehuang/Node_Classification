@@ -4,22 +4,36 @@ import numpy as np
 import pandas as pd
 from models import SimpleFeatureExtractor,LogReg
 
+# class SimpleClassifier(nn.Module):
+#     def __init__(self, n_in, n_h, nb_classes):
+#         super(SimpleClassifier, self).__init__()
+#         self.fc = SimpleFeatureExtractor(n_in, n_h)
+#         self.out = LogReg(n_h, nb_classes)
+#
+#     def forward(self, input_data):
+#         h = self.fc(input_data)
+#         res = self.out(h)
+#         return res
+
 class SimpleClassifier(nn.Module):
-    def __init__(self, n_in, n_h, nb_classes):
+    def __init__(self, n_in, n_h, n_h1, nb_classes):
         super(SimpleClassifier, self).__init__()
         self.fc = SimpleFeatureExtractor(n_in, n_h)
-        self.out = LogReg(n_h, nb_classes)
+        self.fc1 = SimpleFeatureExtractor(n_h, n_h1)
+        self.out = LogReg(n_h1, nb_classes)
 
     def forward(self, input_data):
         h = self.fc(input_data)
+        h = self.fc1(h)
         res = self.out(h)
         return res
 
-weight_path = 'weights/test19_169.pth'
+weight_path = 'weights/test21_59.pth'
 model = torch.load(weight_path)
 
 feature_dict = {}
-with open('features/total_feature_all_meta_512_ABC.txt', 'r') as f:
+with open('features/total_feature_all_meta_512.txt', 'r') as f:
+# with open('features/total_feature_l.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         # print(split_content)
@@ -97,6 +111,6 @@ with open('papers_to_pred.txt','r') as f:
         csv_list.append(cur_dict)
 
 df = pd.DataFrame(csv_list,columns=["author_id","labels"])
-df.to_csv("result/test20.csv",index=False)
+df.to_csv("result/test26.csv",index=False)
 print(true_num)
 print(pred_num)
