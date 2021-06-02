@@ -19,16 +19,18 @@ class SimpleClassifier(nn.Module):
     def __init__(self, n_in, n_h, n_h1, nb_classes):
         super(SimpleClassifier, self).__init__()
         self.fc = SimpleFeatureExtractor(n_in, n_h)
-        self.fc1 = SimpleFeatureExtractor(n_h, n_h1)
-        self.out = LogReg(n_h1, nb_classes)
+        # self.fc1 = SimpleFeatureExtractor(n_h, n_h1)
+        self.out = LogReg(n_h, nb_classes)
+        self.dropout = nn.Dropout(p=0.2)
 
     def forward(self, input_data):
         h = self.fc(input_data)
-        h = self.fc1(h)
+        h = self.dropout(h)
+        # h = self.fc1(h)
         res = self.out(h)
         return res
 
-weight_path = 'weights/test21_59.pth'
+weight_path = 'weights/test23_249.pth'
 model = torch.load(weight_path)
 
 feature_dict = {}
@@ -77,6 +79,8 @@ csv_list = []
 true_num = 0
 pred_num = 0
 
+model.eval()
+
 with open('papers_to_pred.txt','r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
@@ -111,6 +115,6 @@ with open('papers_to_pred.txt','r') as f:
         csv_list.append(cur_dict)
 
 df = pd.DataFrame(csv_list,columns=["author_id","labels"])
-df.to_csv("result/test26.csv",index=False)
+df.to_csv("result/test30.csv",index=False)
 print(true_num)
 print(pred_num)
