@@ -5,15 +5,19 @@ import pandas as pd
 ### Load original data ###
 node_info = pd.read_csv("origin_data/labeled_papers_with_authors.csv")
 edge_info = pd.read_csv("origin_data/paper_reference.csv")
+edge_info = edge_info[(edge_info['paper_id']<4844) & (edge_info['reference_id']<4844)]
 
 
 ### Edges Construction ###
-# author-paper (one-way) and author-author (two-way)
 source = []
 target = []
 
+# paper-paper (one_way)
 source += edge_info['paper_id']
 target += edge_info['reference_id']
+# author-paper (one-way)
+
+# author-author (two-way)
 
 square_edges = pd.DataFrame({"source":source, "target":target})
 
