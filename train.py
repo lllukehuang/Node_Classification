@@ -5,7 +5,7 @@ from models import SimpleFeatureExtractor, LogReg
 
 # get the feature
 feature_dict = {}
-with open('features/total_feature_l.txt', 'r') as f:
+with open('features/total_feature_ml.txt', 'r') as f:
 # with open('features/total_feature_all_meta_512.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
