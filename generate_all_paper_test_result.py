@@ -35,7 +35,7 @@ model = torch.load(weight_path)
 
 feature_dict = {}
 with open('features/total_feature_l.txt', 'r') as f:
-# with open('features/total_feature_l.txt', 'r') as f:
+# with open('features/total_feature_all_meta_512.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         # print(split_content)
@@ -45,13 +45,6 @@ with open('features/total_feature_l.txt', 'r') as f:
         feature_dict[cur_paper_id] = [float(split_content[1])]
         for feat_num in split_content[2:-1]:
             feature_dict[cur_paper_id].append(float(feat_num))
-
-true_labels = {}
-with open('labels.txt','r') as f:
-    for line in f.readlines():
-        split_content = line.split(' ')
-        cur_paper_id = int(split_content[0])
-        true_labels[cur_paper_id] = int(split_content[1])
 
 def get_feature(index):
     global feature_dict
@@ -74,53 +67,20 @@ def get_feature(index):
 # for (i,x) in predictions:
 #     print(i,x)
 
-csv_list = []
-
-true_num = 0
-pred_num = 0
-
 model.eval()
 
-with open('papers_to_pred.txt','r') as f:
-    for line in f.readlines():
-        split_content = line.split(' ')
-        # print(split_content)
-        cur_author_id = int(split_content[0])
-        cur_dict = {}
-        cur_dict["author_id"] = cur_author_id
-        cur_papers = []
-        for paper_num in split_content[1:-1]:
-            cur_papers.append(int(paper_num))
-        # if cur_papers == []:
-        #     continue
+with open('mid_result/l_aug_res.txt','a+') as f:
+    X = [get_feature(i) for i in range(24251)]
+    testX = torch.Tensor(X)
+    with torch.no_grad():
+        testY = model(testX)
+    predictions = zip(range(24251), list(testY.max(1)[1].data.tolist()))
+    for (i, x) in predictions:
+        # print(i, x)
+        # print(i) # 当前检测paper
+        if i < 4844:
+            continue
+        else:
+            f.write(str(i)+" ")
+            f.write(str(x)+"\n")
 
-        # 数据预处理
-        X = [get_feature(i) for i in cur_papers]
-        # X -= np.mean(X)
-        # X /= np.std(X, axis=0)
-
-        testX = torch.Tensor(X)
-        with torch.no_grad():
-            testY = model(testX)
-
-        predictions = zip(cur_papers, list(testY.max(1)[1].data.tolist()))
-        cur_author_papers = set()
-        for (i, x) in predictions:
-            # print(i, x)
-            # print(i) # 当前检测paper
-            if i < 4844:
-                cur_author_papers.add(true_labels[i])
-                true_num += 1
-            else:
-                cur_author_papers.add(x)
-                pred_num += 1
-        res = ''
-        for i in cur_author_papers:
-            res += str(i) + " "
-        cur_dict["labels"] = res
-        csv_list.append(cur_dict)
-
-df = pd.DataFrame(csv_list,columns=["author_id","labels"])
-df.to_csv("result/test33.csv",index=False)
-print(true_num)
-print(pred_num)
