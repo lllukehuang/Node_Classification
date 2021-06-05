@@ -6,6 +6,8 @@ total_res = {}
 for i in total_results:
     if i == 'readme.md':
         continue
+    if i[0:5] == 'final':
+        continue
     cur_path = "mid_result/" + i
     print(cur_path)
     with open(cur_path,"r",encoding='utf-8') as f:
@@ -24,8 +26,8 @@ for i in total_results:
                 else:
                     cur_dict[cur_pred_res] += 1
 
-# print(total_res)
-with open('mid_result/final_5.txt',"a+") as f:
+print(total_res)
+with open('mid_result/final_7.txt',"a+") as f:
     for key in total_res:
         f.write(str(key)+" ")
         cur_dict = total_res[key]

@@ -1,6 +1,6 @@
 feature_dict = {}
 # with open('features/metapath_total_512_ABC.txt', 'r') as f:
-with open('features/test111.txt.txt', 'r') as f:
+with open('features/test333.txt', 'r') as f:
     f.readline()
     f.readline()
     for line in f.readlines():
@@ -13,7 +13,7 @@ with open('features/test111.txt.txt', 'r') as f:
         for feat_num in split_content[2:-1]:
             feature_dict[cur_paper_id].append(float(feat_num))
 
-with open('features/total_feature_l.txt', 'a+') as f:
+with open('features/total_feature_ml.txt', 'a+') as f:
     for key in range(24251):
         f.write(str(key) + ' ')
         cur_feature_length = len(feature_dict[key])
