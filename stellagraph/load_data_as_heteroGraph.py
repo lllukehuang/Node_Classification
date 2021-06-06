@@ -7,14 +7,13 @@ import numpy as np
 paper_author_info = pd.read_csv("./labeled_papers_with_authors.csv")
 paper_reference_info = pd.read_csv("./paper_reference.csv")
 # Pre-processing
-paper_reference_info = paper_reference_info[(paper_reference_info['paper_id']<4844) & (paper_reference_info['reference_id']<4844)]
+paper_reference_info = paper_reference_info[(paper_reference_info['paper_id']<4844) & (paper_reference_info['reference_id']<4844)].reset_index()
 
 paper_author_info['author_id'] = paper_author_info['author_id'].apply(lambda x:'a' + str(int(x)))
 paper_author_info['paper_id'] = paper_author_info['paper_id'].apply(lambda x:'p' + str(int(x)))
 
 paper_reference_info['paper_id'] = paper_reference_info['paper_id'].apply(lambda x:'p' + str(int(x)))
-paper_reference_info['reference_id'] = paper_reference_info['reference_id'].apply(lambda x:'r' + str(int(x)))
-
+paper_reference_info['reference_id'] = paper_reference_info['reference_id'].apply(lambda x:'p' + str(int(x)))
 print(paper_author_info)
 print(paper_reference_info)
 
