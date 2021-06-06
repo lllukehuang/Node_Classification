@@ -11,7 +11,7 @@ def find_coauthor(df:DataFrame):
     for row in df.itertuples():
         paper = getattr(row, 'paper_id')
         search_paper = new_df[new_df.paper_id==paper]
-        if (search_paper.size<=1):
+        if (search_paper.shape[0]<=1):
             new_df = new_df.drop(search_paper.index)
         else:
             author_list = search_paper['author_id']
