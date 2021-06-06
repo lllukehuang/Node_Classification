@@ -16,6 +16,8 @@ def find_coauthor(df:DataFrame):
         else:
             author_list = search_paper['author_id']
             print(paper)
+            print(type(search_paper))
+            print(search_paper)
             print(type(author_list))
             print(author_list)
             break
