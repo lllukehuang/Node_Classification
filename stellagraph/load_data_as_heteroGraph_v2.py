@@ -94,7 +94,8 @@ paper_node_info = pd.DataFrame({"paper_id":paper_author_info['paper_id'], "label
 square_paper = pd.DataFrame({"conference":paper_node_info['label']}, index=paper_node_info['paper_id'])
 
 # author nodes (no labels)
-square_author = pd.DataFrame(index=paper_author_info['author_id']).drop_duplicates().reset_index()
+author_node_info = pd.DataFrame(index=paper_author_info['author_id']).drop_duplicates().reset_index()
+square_author = pd.DataFrame(index=author_node_info['author_id'])
 
 
 ### Merge ###
