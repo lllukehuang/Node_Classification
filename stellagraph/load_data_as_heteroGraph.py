@@ -8,21 +8,35 @@ def find_coauthor(df:DataFrame):
     source = []
     target = []
     new_df = df.copy()
-    for row in df.itertuples():
+    for row in new_df.itertuples():
         paper = getattr(row, 'paper_id')
         search_paper = new_df[new_df.paper_id==paper]
         if (search_paper.shape[0]<=1):
+            print("Paper {} has only one author.".format(paper))
             new_df = new_df.drop(search_paper.index)
-        else:
-            author_list = search_paper['author_id']
-            print(paper)
-            print(type(search_paper))
-            print(search_paper)
-            print(type(author_list))
-            print(author_list.tolist())
-            break
+            if not (new_df.paper_id==paper):
+                print("Paper {} deleted from new_df.".format(paper))
+                if (new_df.shape[0]==0):
+                    print("Search finish!")
+                    return source, target
+            else:
+                print("Fail to delete!")
 
-    return source, target
+        else:
+            author_list = search_paper['author_id'].tolist()
+            for a1 in author_list:
+                for a2 in author_list.remove(a1):
+                    source.append(a1)
+                    target.append(a2)
+
+            new_df = new_df.drop(search_paper.index)
+            if not (new_df.paper_id==paper):
+                print("Paper {} deleted from new_df.".format(paper))
+                if (new_df.shape[0]==0):
+                    print("Search finish!")
+                    return source, target
+            else:
+                print("Fail to delete!")
 
 
 ### Load Raw Data ###
@@ -44,13 +58,20 @@ source = []
 target = []
 
 # paper -> paper (one_way)
-source = source + paper_reference_info['paper_id'].tolist()
-target = target + paper_reference_info['reference_id'].tolist()
+ori_paper = paper_reference_info['paper_id'].tolist()
+ref_paper = paper_reference_info['reference_id'].tolist()
+source = source + ori_paper
+target = target + ref_paper
 # author -> paper (one-way)
-source = source + paper_author_info['author_id'].tolist()
-target = target + paper_author_info['paper_id'].tolist()
+author1 = paper_author_info['author_id'].tolist()
+paper1 = paper_author_info['paper_id'].tolist()
+source = source + author1
+target = target + paper1
 # author <-> author (two-way)
-find_coauthor(paper_author_info)
+author2, author3 = find_coauthor(paper_author_info)
+source = source + author2
+target = target + author3
+
 
 square_edges = pd.DataFrame({"source":source, "target":target})
 
