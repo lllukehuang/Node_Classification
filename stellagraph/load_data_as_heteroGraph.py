@@ -22,7 +22,7 @@ def find_coauthor(df:DataFrame):
                 # print("Paper {} deleted from new_df.".format(paper))
                 if (new_df.shape[0]==0):
                     print("Search finish!")
-                    print(len(source))
+                    # print(len(source))
                     return source, target
             # else:
                 # print("Fail to delete!")
@@ -41,7 +41,7 @@ def find_coauthor(df:DataFrame):
                 # print("Paper {} deleted from new_df.".format(paper))
                 if (new_df.shape[0]==0):
                     print("Search finish!")
-                    print(len(source))
+                    # print(len(source))
                     return source, target
             # else:
                 # print("Fail to delete!")
@@ -81,9 +81,10 @@ author2, author3 = find_coauthor(paper_author_info)
 source = source + author2
 target = target + author3
 
-
+print(source[0:100])
+print(target[0:100])
 square_edges = pd.DataFrame({"source":source, "target":target})
-
+print(square_edges)
 
 ### Nodes Construction ###
 # paper nodes (with labels)
