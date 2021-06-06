@@ -45,7 +45,7 @@ target = target + paper_reference_info['reference_id'].tolist()
 source = source + paper_author_info['author_id'].tolist()
 target = target + paper_author_info['paper_id'].tolist()
 # author <-> author (two-way)
-
+find_coauthor(paper_author_info)
 
 square_edges = pd.DataFrame({"source":source, "target":target})
 
