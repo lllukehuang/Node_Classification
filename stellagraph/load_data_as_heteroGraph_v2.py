@@ -83,8 +83,8 @@ author2, author3 = find_coauthor(paper_author_info)
 
 square_edges = {
     # "p2p": pd.DataFrame({"source": ori_paper, "target":ref_paper}),
-    # "a2p": pd.DataFrame({"source": author1, "target":paper1}),
-    "a2a": pd.DataFrame({"source": author2, "target":author3})
+    "a2p": pd.DataFrame({"source": author1, "target":paper1})
+    # "a2a": pd.DataFrame({"source": author2, "target":author3})
 }
 
 ### Nodes Construction ###
