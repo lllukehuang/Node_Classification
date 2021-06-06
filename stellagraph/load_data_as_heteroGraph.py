@@ -86,7 +86,7 @@ target = target + author3
 
 
 square_edges = pd.DataFrame({"source":source, "target":target})
-print(square_edges)
+# print(square_edges)
 
 ### Nodes Construction ###
 print("Constructing nodes...")
@@ -95,12 +95,15 @@ paper_node_info = pd.DataFrame({"paper_id":paper_author_info['paper_id'], "label
 square_paper = pd.DataFrame({"conference":paper_node_info['label']}, index=paper_node_info['paper_id'])
 
 # author nodes (no labels)
-square_author = pd.DataFrame(index=paper_author_info['author_id'])
+author_node_info = pd.DataFrame({"author_id":paper_author_info['author_id']}).drop_duplicates().reset_index()
+square_author = pd.DataFrame(index=author_node_info['author_id'])
 
 
 ### Merge ###
 print("Constructing graph...")
-square_paper_and_author = StellarDiGraph({"paper":square_paper, "author":square_author}, square_edges)
+square_paper_and_author = StellarDiGraph(
+    {"paper":square_paper, "author":square_author},
+    square_edges)
 print('==================================')
 print(square_paper_and_author.info())
 print('==================================')
