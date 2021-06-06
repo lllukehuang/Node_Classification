@@ -4,7 +4,9 @@ total_results = os.listdir('mid_result')
 
 total_res = {}
 for i in total_results:
-    if i[0:5] != 'final':
+    # if i[0:5] != 'final':
+    #     continue
+    if not (i == 'final_7.txt' or i == 'final_11.txt'):
         continue
     cur_path = "mid_result/" + i
     print(cur_path)

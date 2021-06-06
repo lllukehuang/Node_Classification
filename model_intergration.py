@@ -27,7 +27,7 @@ for i in total_results:
                     cur_dict[cur_pred_res] += 1
 
 print(total_res)
-with open('mid_result/final_7.txt',"a+") as f:
+with open('mid_result/final_11.txt',"a+") as f:
     for key in total_res:
         f.write(str(key)+" ")
         cur_dict = total_res[key]
