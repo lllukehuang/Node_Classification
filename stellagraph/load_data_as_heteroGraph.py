@@ -15,6 +15,8 @@ paper_author_info['paper_id'] = paper_author_info['paper_id'].apply(lambda x:'p'
 paper_reference_info['paper_id'] = paper_reference_info['paper_id'].apply(lambda x:'p' + str(int(x)))
 paper_reference_info['reference_id'] = paper_reference_info['reference_id'].apply(lambda x:'r' + str(int(x)))
 
+print(paper_author_info)
+print(paper_reference_info)
 
 ### Edges Construction ###
 source = []
