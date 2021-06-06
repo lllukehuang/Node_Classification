@@ -14,7 +14,7 @@ def find_coauthor(df:DataFrame):
         if (search_paper.shape[0]<=1):
             print("Paper {} has only one author.".format(paper))
             new_df = new_df.drop(search_paper.index)
-            if not (new_df.paper_id==paper):
+            if paper not in new_df.paper_id:
                 print("Paper {} deleted from new_df.".format(paper))
                 if (new_df.shape[0]==0):
                     print("Search finish!")
@@ -30,7 +30,7 @@ def find_coauthor(df:DataFrame):
                     target.append(a2)
 
             new_df = new_df.drop(search_paper.index)
-            if not (new_df.paper_id==paper):
+            if paper not in new_df.paper_id:
                 print("Paper {} deleted from new_df.".format(paper))
                 if (new_df.shape[0]==0):
                     print("Search finish!")
