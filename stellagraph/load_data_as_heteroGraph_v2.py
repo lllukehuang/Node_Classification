@@ -83,7 +83,7 @@ author2, author3 = find_coauthor(paper_author_info)
 
 square_edges = {
     # "p2p": pd.DataFrame({"source": ori_paper, "target":ref_paper}),
-    "a2p": pd.DataFrame({"source": author1, "target":paper1})
+    # "a2p": pd.DataFrame({"source": author1, "target":paper1}),
     # "a2a": pd.DataFrame({"source": author2, "target":author3})
 }
 
@@ -94,7 +94,7 @@ paper_node_info = pd.DataFrame({"paper_id":paper_author_info['paper_id'], "label
 square_paper = pd.DataFrame({"conference":paper_node_info['label']}, index=paper_node_info['paper_id'])
 
 # author nodes (no labels)
-square_author = pd.DataFrame(index=paper_author_info['author_id'])
+square_author = pd.DataFrame(index=paper_author_info['author_id']).drop_duplicates().reset_index()
 
 
 ### Merge ###
