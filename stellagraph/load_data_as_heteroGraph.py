@@ -12,12 +12,9 @@ def find_coauthor(df:DataFrame):
         print('---------------------------------')
         paper = getattr(row, 'paper_id')
         search_paper = new_df[new_df.paper_id==paper]
-        print(search_paper)
-        print(search_paper.shape)
-        
+
         if (search_paper.shape[0]==0):
             continue
-
         elif (search_paper.shape[0]==1):
             print("Paper {} has only one author {}.".format(paper, search_paper['author_id']))
             new_df = new_df.drop(search_paper.index)
@@ -28,7 +25,6 @@ def find_coauthor(df:DataFrame):
                     return source, target
             else:
                 print("Fail to delete!")
-
         else:
             author_list = search_paper['author_id'].tolist()
             print("Paper {} is written by {}".format(paper, author_list))
@@ -87,7 +83,6 @@ target = target + author3
 square_edges = pd.DataFrame({"source":source, "target":target})
 
 
-
 ### Nodes Construction ###
 # paper nodes (with labels)
 paper_node_info = pd.DataFrame({"paper_id":paper_author_info['paper_id'], "label":paper_author_info['label']}).drop_duplicates().reset_index()
@@ -97,4 +92,7 @@ square_paper = pd.DataFrame({"conference":paper_node_info['label']}, index=paper
 square_author = pd.DataFrame(index=paper_author_info['author_id'])
 
 # Merge
-#square_paper_and_author = StellarGraph({"paper":square_paper, "author":square_author}, square_edges)
+square_paper_and_author = StellarGraph({"paper":square_paper, "author":square_author}, square_edges)
+print('==================================')
+print(square_paper_and_author.info())
+print('==================================')
