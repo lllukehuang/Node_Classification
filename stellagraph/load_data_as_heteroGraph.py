@@ -3,8 +3,8 @@ import pandas as pd
 
 
 ### Load original data ###
-node_info = pd.read_csv("origin_data/labeled_papers_with_authors.csv")
-edge_info = pd.read_csv("origin_data/paper_reference.csv")
+node_info = pd.read_csv("../origin_data/labeled_papers_with_authors.csv")
+edge_info = pd.read_csv("../origin_data/paper_reference.csv")
 edge_info = edge_info[(edge_info['paper_id']<4844) & (edge_info['reference_id']<4844)]
 
 
