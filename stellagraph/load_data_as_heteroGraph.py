@@ -1,6 +1,23 @@
+from pandas.core.frame import DataFrame
 from stellargraph import StellarGraph
 import pandas as pd
 import numpy as np
+
+
+def find_coauthor(df:DataFrame):
+    source = []
+    target = []
+    new_df = df.copy()
+    for row in df.itertuples():
+        paper = getattr(row, 'paper_id')
+        search_paper = new_df[new_df.paper_id==paper]
+        if (search_paper.size<=1):
+            new_df = new_df.drop(search_paper.index)
+        else:
+            author_list = search_paper['author_id']
+            print(author_list)
+
+    return source, target
 
 
 ### Load Raw Data ###
@@ -14,19 +31,21 @@ paper_author_info['paper_id'] = paper_author_info['paper_id'].apply(lambda x:'p'
 
 paper_reference_info['paper_id'] = paper_reference_info['paper_id'].apply(lambda x:'p' + str(int(x)))
 paper_reference_info['reference_id'] = paper_reference_info['reference_id'].apply(lambda x:'p' + str(int(x)))
-print(paper_author_info)
-print(paper_reference_info)
+# print(paper_author_info)
+# print(paper_reference_info)
 
 ### Edges Construction ###
 source = []
 target = []
 
-# paper-paper (one_way)
+# paper -> paper (one_way)
 source = source + paper_reference_info['paper_id'].tolist()
 target = target + paper_reference_info['reference_id'].tolist()
-# author-paper (one-way)
+# author -> paper (one-way)
+source = source + paper_author_info['author_id'].tolist()
+target = target + paper_author_info['paper_id'].tolist()
+# author <-> author (two-way)
 
-# author-author (two-way)
 
 square_edges = pd.DataFrame({"source":source, "target":target})
 
