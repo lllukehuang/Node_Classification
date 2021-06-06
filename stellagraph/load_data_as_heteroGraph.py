@@ -9,6 +9,7 @@ def find_coauthor(df:DataFrame):
     target = []
     new_df = df.copy()
     for row in new_df.itertuples():
+        print('---------------------------------')
         paper = getattr(row, 'paper_id')
         search_paper = new_df[new_df.paper_id==paper]
         if (search_paper.shape[0]<=1):
@@ -25,7 +26,8 @@ def find_coauthor(df:DataFrame):
         else:
             author_list = search_paper['author_id'].tolist()
             for a1 in author_list:
-                for a2 in author_list.remove(a1):
+                tmp_author_list = author_list.copy()
+                for a2 in tmp_author_list.remove(a1):
                     source.append(a1)
                     target.append(a2)
 
@@ -37,6 +39,7 @@ def find_coauthor(df:DataFrame):
                     return source, target
             else:
                 print("Fail to delete!")
+        print('---------------------------------\n')
 
 
 ### Load Raw Data ###
