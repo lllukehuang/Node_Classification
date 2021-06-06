@@ -14,7 +14,11 @@ def find_coauthor(df:DataFrame):
         search_paper = new_df[new_df.paper_id==paper]
         print(search_paper)
         print(search_paper.shape)
-        if (search_paper.shape[0]<=1):
+        
+        if (search_paper.shape[0]==0):
+            continue
+
+        elif (search_paper.shape[0]==1):
             print("Paper {} has only one author {}.".format(paper, search_paper['author_id']))
             new_df = new_df.drop(search_paper.index)
             if paper not in new_df.paper_id:
