@@ -1,5 +1,5 @@
 from pandas.core.frame import DataFrame
-from stellargraph import StellarDiGraph
+from stellargraph import StellarDiGraph, StellarGraph
 import pandas as pd
 import numpy as np
 
@@ -72,21 +72,20 @@ target = []
 # paper -> paper (one_way)
 ori_paper = paper_reference_info['paper_id'].tolist()
 ref_paper = paper_reference_info['reference_id'].tolist()
-source = source + ori_paper
-target = target + ref_paper
+
 # author -> paper (one-way)
 author1 = paper_author_info['author_id'].tolist()
 paper1 = paper_author_info['paper_id'].tolist()
-source = source + author1
-target = target + paper1
+
 # author <-> author (two-way)
 author2, author3 = find_coauthor(paper_author_info)
-source = source + author2
-target = target + author3
 
 
-square_edges = pd.DataFrame({"source":source, "target":target})
-print(square_edges)
+square_edges = {
+    "p2p": pd.DataFrame({"source": ori_paper, "target":ref_paper}),
+    "a2p": pd.DataFrame({"source": author1, "target":paper1}),
+    "a2a": pd.DataFrame({"source": author2, "target":author3})
+}
 
 ### Nodes Construction ###
 print("Constructing nodes...")
@@ -100,7 +99,9 @@ square_author = pd.DataFrame(index=paper_author_info['author_id'])
 
 ### Merge ###
 print("Constructing graph...")
-square_paper_and_author = StellarDiGraph({"paper":square_paper, "author":square_author}, square_edges)
+square_paper_and_author = StellarGraph(
+    {"paper":square_paper, "author":square_author},
+    square_edges)
 print('==================================')
 print(square_paper_and_author.info())
 print('==================================')
