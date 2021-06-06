@@ -80,7 +80,8 @@ paper1 = paper_author_info['paper_id'].tolist()
 # author <-> author (two-way)
 author2, author3 = find_coauthor(paper_author_info)
 
-
+print(ori_paper[0:50])
+print(author1[0:50])
 square_edges = {
     "p2p": pd.DataFrame({"source": ori_paper, "target": ref_paper}),
     # "a2p": pd.DataFrame({"source": author1, "target": paper1}),
