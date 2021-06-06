@@ -1,5 +1,5 @@
 from pandas.core.frame import DataFrame
-from stellargraph import StellarGraph
+from stellargraph import StellarDiGraph
 import pandas as pd
 import numpy as np
 
@@ -95,7 +95,7 @@ square_paper = pd.DataFrame({"conference":paper_node_info['label']}, index=paper
 square_author = pd.DataFrame(index=paper_author_info['author_id'])
 
 # Merge
-square_paper_and_author = StellarGraph({"paper":square_paper, "author":square_author}, square_edges)
+square_paper_and_author = StellarDiGraph({"paper":square_paper, "author":square_author}, square_edges)
 print('==================================')
 print(square_paper_and_author.info())
 print('==================================')
