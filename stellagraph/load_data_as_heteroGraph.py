@@ -27,8 +27,8 @@ def find_coauthor(df:DataFrame):
             author_list = search_paper['author_id'].tolist()
             for a1 in author_list:
                 tmp_author_list = author_list.copy()
-                l = tmp_author_list.remove(a1)
-                for a2 in l:
+                tmp_author_list.remove(a1)                
+                for a2 in tmp_author_list:
                     source.append(a1)
                     target.append(a2)
 
