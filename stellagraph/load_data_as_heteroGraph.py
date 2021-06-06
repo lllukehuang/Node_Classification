@@ -19,7 +19,7 @@ def find_coauthor(df:DataFrame):
             print(type(search_paper))
             print(search_paper)
             print(type(author_list))
-            print(author_list)
+            print(author_list.tolist())
             break
 
     return source, target
