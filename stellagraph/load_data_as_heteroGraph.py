@@ -12,8 +12,10 @@ def find_coauthor(df:DataFrame):
         print('---------------------------------')
         paper = getattr(row, 'paper_id')
         search_paper = new_df[new_df.paper_id==paper]
+        print(search_paper)
+        print(search_paper.shape)
         if (search_paper.shape[0]<=1):
-            print("Paper {} has only one author.".format(paper))
+            print("Paper {} has only one author {}.".format(paper, search_paper['author_id']))
             new_df = new_df.drop(search_paper.index)
             if paper not in new_df.paper_id:
                 print("Paper {} deleted from new_df.".format(paper))
@@ -25,6 +27,7 @@ def find_coauthor(df:DataFrame):
 
         else:
             author_list = search_paper['author_id'].tolist()
+            print("Paper {} is written by {}".format(paper, author_list))
             for a1 in author_list:
                 tmp_author_list = author_list.copy()
                 tmp_author_list.remove(a1)                
