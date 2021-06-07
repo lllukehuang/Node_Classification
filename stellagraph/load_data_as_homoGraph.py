@@ -91,6 +91,7 @@ def find_author_label(dfPA: DataFrame):
             continue
         else:
             label = search_author['label'].to_dict()
+            print(search_author)
             print(label)
             labels[author] = label
             dfPA_1 = dfPA_1.drop(search_author.index)
