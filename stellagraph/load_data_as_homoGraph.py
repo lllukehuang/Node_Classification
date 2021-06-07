@@ -109,12 +109,8 @@ author1, author2 = find_co_relation(paper_author_info)
 print("Searching for referenced authors...")
 author3, author4 = find_ref_relation(paper_author_info, paper_reference_info)
 
-edges = pd.DataFrame(
-    {
-        "source": author1 + author3,
-        "target": author2 + author4,
-    }
-)
+co_edges = pd.DataFrame({"source": author1, "target": author2})
+ref_edges = pd.DataFrame({"source": author3, "target": author4})
 
 ### Node Construction ###
 author_node_info = pd.DataFrame({"author_id":paper_author_info['author_id']}).drop_duplicates().reset_index()
@@ -124,7 +120,9 @@ nodes = pd.DataFrame({"label": [0]*author_node_info['author_id'].size},index=aut
 ### Merge ###
 print("Constructing graph...")
 square_paper_and_author = StellarDiGraph(
-    {"corner": nodes}, {"line": edges})
+    {"author": nodes},
+    {"cooperate": co_edges, "cite": ref_edges}
+    )
 print('==================================')
 print(square_paper_and_author.info())
 print('==================================')
