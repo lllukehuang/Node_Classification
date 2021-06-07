@@ -90,7 +90,7 @@ def find_author_label(dfPA: DataFrame):
         if(search_author.shape[0]==0):
             continue
         else:
-            label = search_author['label'].to_dict()
+            label = search_author['author_id','label'].to_dict()
             print(search_author)
             print(label)
             labels[author] = label
@@ -109,6 +109,7 @@ def constructHomoGraph():
 
     paper_author_info['author_id'] = paper_author_info['author_id'].apply(lambda x:'a' + str(int(x)))
     paper_author_info['paper_id'] = paper_author_info['paper_id'].apply(lambda x:'p' + str(int(x)))
+    paper_author_info['paper_id'] = paper_author_info['label'].apply(lambda x:'c' + str(int(x)))
 
     paper_reference_info['paper_id'] = paper_reference_info['paper_id'].apply(lambda x:'p' + str(int(x)))
     paper_reference_info['reference_id'] = paper_reference_info['reference_id'].apply(lambda x:'p' + str(int(x)))
