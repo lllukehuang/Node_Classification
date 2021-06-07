@@ -5,7 +5,6 @@ import numpy as np
 
 
 def find_author(df: DataFrame, id: str):
-    print("Searching for co-authors of paper {}...".format(id))
     df = df.copy()
     search_paper = df[df.paper_id==id]
     author_list = search_paper['author_id'].tolist()
@@ -14,7 +13,6 @@ def find_author(df: DataFrame, id: str):
 
 
 def find_co_relation(df: DataFrame):
-    print("Searching for co-authors...")
     source = []
     target = []
     new_df = df.copy()
@@ -60,7 +58,6 @@ def find_co_relation(df: DataFrame):
     
 
 def find_ref_relation(dfPA: DataFrame, dfPR: DataFrame):
-    print("Searching for referenced authors...")
     source = []
     target = []
     dfPA1 = dfPA.copy()
@@ -106,23 +103,28 @@ print("Constructing edges...")
 source = []
 target = []
 # Cooperation #
+print("Searching for co-authors...")
 author1, author2 = find_co_relation(paper_author_info)
 # Citation #
+print("Searching for referenced authors...")
 author3, author4 = find_ref_relation(paper_author_info, paper_reference_info)
 
-edges = {
-    "cooperate": pd.DataFrame({"source": author1, "target": author2}),
-    "cite": pd.DataFrame({"source": author3, "target": author4})
-}
+edges = pd.DataFrame(
+    {
+        "source": author1 + author3,
+        "target": author2 + author4,
+    }
+)
 
 ### Node Construction ###
 author_node_info = pd.DataFrame({"author_id":paper_author_info['author_id']}).drop_duplicates().reset_index()
-nodes = pd.DataFrame(index=author_node_info['author_id'])
+nodes = pd.DataFrame({"label": [0]*author_node_info['author_id'].size},index=author_node_info['author_id'])
 
 
 ### Merge ###
 print("Constructing graph...")
-square_paper_and_author = StellarDiGraph(nodes, edges)
+square_paper_and_author = StellarDiGraph(
+    {"corner": nodes}, {"line": edges})
 print('==================================')
 print(square_paper_and_author.info())
 print('==================================')
