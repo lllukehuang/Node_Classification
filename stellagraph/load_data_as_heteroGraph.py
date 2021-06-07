@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 
-def find_coauthor(df:DataFrame):
+def find_co_relation(df: DataFrame):
     print("Searching for co-authors...")
     source = []
     target = []
@@ -83,7 +83,7 @@ def constructHeteroGraph():
     source = source + author1
     target = target + paper1
     # author <-> author (two-way)
-    author2, author3 = find_coauthor(paper_author_info)
+    author2, author3 = find_co_relation(paper_author_info)
     source = source + author2
     target = target + author3
 
