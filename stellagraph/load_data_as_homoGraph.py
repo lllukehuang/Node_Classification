@@ -5,12 +5,11 @@ import numpy as np
 
 
 def find_author(df: DataFrame, id: str):
-    df = df.copy()
-    search_paper = df[df.paper_id==id]
+    df1 = df.copy()
+    search_paper = df1[df1.paper_id==id]
     author_list = search_paper['author_id'].tolist()
 
     return author_list
-
 
 def find_co_relation(df: DataFrame):
     source = []
@@ -55,8 +54,6 @@ def find_co_relation(df: DataFrame):
                 # print("Fail to delete!")
         # print('---------------------------------\n')
 
-    
-
 def find_ref_relation(dfPA: DataFrame, dfPR: DataFrame):
     source = []
     target = []
@@ -82,6 +79,23 @@ def find_ref_relation(dfPA: DataFrame, dfPR: DataFrame):
             if (dfPR1.shape[0]==0):
                 print("Search finish!")
                 return source, target
+
+def find_author_label(dfPA: DataFrame):
+    labels = {}
+    dfPA_1 = dfPA.copy()
+    for row in dfPA_1.itertuples():
+        author = getattr(row, 'author_id')
+        search_author = dfPA_1[dfPA_1.author_id==author]
+        
+        if(search_author.shape[0]==0):
+            continue
+        else:
+            label = search_author['label'].tolist()
+            labels[author] = label
+            dfPA_1 = dfPA_1.drop(search_author.index)
+            if (dfPA_1.shape[0]==0):
+                print("Search finish!")
+                return labels
 
 
 ### Load Raw Data ###
@@ -113,6 +127,9 @@ co_edges = pd.DataFrame({"source": author1, "target": author2})
 ref_edges = pd.DataFrame({"source": author3, "target": author4})
 
 ### Node Construction ###
+print("Searching for conferences that authors join...")
+labels = find_author_label(paper_author_info)
+labels = pd.DataFrame.from_dict(labels)
 author_node_info = pd.DataFrame({"author_id":paper_author_info['author_id']}).drop_duplicates().reset_index()
 nodes = pd.DataFrame({"label": [0]*author_node_info['author_id'].size},index=author_node_info['author_id'])
 
