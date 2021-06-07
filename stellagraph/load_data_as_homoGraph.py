@@ -1,5 +1,5 @@
 from pandas.core.frame import DataFrame
-from stellargraph import StellarDiGraph
+from stellargraph import StellarDiGraph, StellarGraph
 import pandas as pd
 import numpy as np
 
