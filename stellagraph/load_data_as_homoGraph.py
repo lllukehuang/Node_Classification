@@ -80,6 +80,7 @@ def find_ref_relation(dfPA: DataFrame, dfPR: DataFrame):
                 print("Search finish!")
                 return source, target
 
+# TODO: remains to construct label dicts
 def find_author_label(dfPA: DataFrame):
     labels = {}
     dfPA_1 = dfPA.copy()
