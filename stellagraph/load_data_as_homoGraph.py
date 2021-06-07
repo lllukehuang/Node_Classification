@@ -122,7 +122,7 @@ nodes = pd.DataFrame(index=author_node_info['author_id'])
 
 ### Merge ###
 print("Constructing graph...")
-square_paper_and_author = StellarGraph(nodes, edges)
+square_paper_and_author = StellarDiGraph(nodes, edges)
 print('==================================')
 print(square_paper_and_author.info())
 print('==================================')
