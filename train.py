@@ -7,7 +7,7 @@ from models import SimpleFeatureExtractor, LogReg
 
 # get the feature
 feature_dict = {}
-# with open('features/total_feature_ml.txt', 'r') as f:
+# with open('features/total_feature_l.txt', 'r') as f:
 with open('features/total_feature_all_meta_512_ABC.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
@@ -37,23 +37,24 @@ def get_labels():
 # 添加数据预处理
 X = [get_feature(i) for i in range(4844)]
 tempX = X
-X -= np.mean(X)
-X /= np.std(X, axis=0)
-total_X = np.concatenate((tempX,X),axis=0)
+# X -= np.mean(X)
+# X /= np.std(X, axis=0)
+# total_X = np.concatenate((tempX,X),axis=0)
 Y = get_labels()
-total_Y = np.concatenate((Y,Y),axis=0)
+# total_Y = np.concatenate((Y,Y),axis=0)
 
-# trX = torch.Tensor(X)
-# trY = torch.LongTensor(Y)
-trX = torch.Tensor(total_X)
-trY = torch.LongTensor(total_Y)
+trX = torch.Tensor(X)
+trY = torch.LongTensor(Y)
+# trX = torch.Tensor(total_X)
+# trY = torch.LongTensor(total_Y)
 print(trX.shape)
 print(trY.shape)
 
 NUM_FEATURE = 512
-# NUM_FEATURE = 128
-NUM_HIDDEN = 1024
-NUM_HIDDEN1 = 84
+# NUM_FEATURE = 256
+NUM_HIDDEN = 2048
+# NUM_HIDDEN = 512
+NUM_HIDDEN1 = 1024
 
 class SimpleClassifier(nn.Module):
     def __init__(self, n_in, n_h, n_h1, nb_classes):
@@ -106,6 +107,6 @@ for epoch in range(EPOCH_NUM):
     loss = loss_fn(model(trX),trY).item()
     print("Epoch:",epoch,"Loss:",loss)
     if epoch % 10 == 9:
-        torch.save(model, 'weights/test30_'+str(epoch)+".pth")
+        torch.save(model, 'weights/test36_'+str(epoch)+".pth")
 
-torch.save(model,'weights/test30.pth')
+torch.save(model,'weights/test36.pth')
