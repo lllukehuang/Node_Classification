@@ -11,3 +11,9 @@ m: drop
 ml: (100 50 100 50)
 
 ml_aug:
+
+AB: 添加 ABA BAB 两种路径 (50 50)
+
+ABC: 添加年份节点
+
+(bad)  AB_s: (20 10) ABA BAB

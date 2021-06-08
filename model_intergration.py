@@ -2,12 +2,16 @@ import os
 
 total_results = os.listdir('mid_result')
 
+ban_list = ['AB_s_res_69.txt','AB_s_res_99.txt']
+
 total_res = {}
 for i in total_results:
     if i == 'readme.md':
         continue
     if i[0:5] == 'final':
         continue
+    # if i in ban_list:
+    #     continue
     cur_path = "mid_result/" + i
     print(cur_path)
     with open(cur_path,"r",encoding='utf-8') as f:
@@ -27,7 +31,7 @@ for i in total_results:
                     cur_dict[cur_pred_res] += 1
 
 print(total_res)
-with open('mid_result/final_11.txt',"a+") as f:
+with open('mid_result/final_17.txt',"a+") as f:
     for key in total_res:
         f.write(str(key)+" ")
         cur_dict = total_res[key]

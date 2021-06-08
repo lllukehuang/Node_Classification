@@ -21,16 +21,16 @@ class SimpleClassifier(nn.Module):
         self.fc = SimpleFeatureExtractor(n_in, n_h)
         # self.fc1 = SimpleFeatureExtractor(n_h, n_h1)
         self.out = LogReg(n_h, nb_classes)
-        # self.dropout = nn.Dropout(p=0.2)
+        self.dropout = nn.Dropout(p=0.2)
 
     def forward(self, input_data):
         h = self.fc(input_data)
-        # h = self.dropout(h)
+        h = self.dropout(h)
         # h = self.fc1(h)
         res = self.out(h)
         return res
 
-weight_path = 'weights/test19_99.pth'
+weight_path = 'weights/test30_99.pth'
 model = torch.load(weight_path)
 
 feature_dict = {}
@@ -69,7 +69,7 @@ def get_feature(index):
 
 model.eval()
 
-with open('mid_result/ABC_res_99.txt','a+') as f:
+with open('mid_result/ABC_aug_res_99.txt','a+') as f:
     X = [get_feature(i) for i in range(24251)]
     testX = torch.Tensor(X)
     with torch.no_grad():
