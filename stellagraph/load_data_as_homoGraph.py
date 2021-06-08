@@ -1,11 +1,17 @@
 from pandas.core.frame import DataFrame
-from stellargraph import StellarDiGraph
+from stellargraph import StellarDiGraph, StellarGraph
 import pandas as pd
 import numpy as np
 
 
+def find_author(df: DataFrame, id: str):
+    df1 = df.copy()
+    search_paper = df1[df1.paper_id==id]
+    author_list = search_paper['author_id'].tolist()
+
+    return author_list
+
 def find_co_relation(df: DataFrame):
-    print("Searching for co-authors...")
     source = []
     target = []
     new_df = df.copy()
@@ -48,10 +54,53 @@ def find_co_relation(df: DataFrame):
                 # print("Fail to delete!")
         # print('---------------------------------\n')
 
+def find_ref_relation(dfPA: DataFrame, dfPR: DataFrame):
+    source = []
+    target = []
+    dfPA1 = dfPA.copy()
+    dfPR1 = dfPR.copy()
 
+    for row in dfPR1.itertuples():
+        paper = getattr(row, 'paper_id')
+        paper_author_list = find_author(dfPA1, paper)
+        ref = getattr(row, 'reference_id')
+        ref_author_list = find_author(dfPA1, ref)
+        search_paper = dfPR1[dfPR1.paper_id==paper]
 
-def constructHeteroGraph():
+        if (search_paper.shape[0]==0):
+            continue
+        else:
+            for a1 in paper_author_list:
+                for a2 in ref_author_list:
+                    source.append(a1)
+                    target.append(a2)
 
+            dfPR1 = dfPR1.drop(search_paper.index)
+            if (dfPR1.shape[0]==0):
+                print("Search finish!")
+                return source, target
+
+# TODO: remains to construct label dicts
+def find_author_label(dfPA: DataFrame):
+    labels = {}
+    dfPA_1 = dfPA.copy()
+    for row in dfPA_1.itertuples():
+        author = getattr(row, 'author_id')
+        search_author = dfPA_1[dfPA_1.author_id==author]
+        
+        if(search_author.shape[0]==0):
+            continue
+        else:
+            label = search_author['author_id','label'].to_dict()
+            print(search_author)
+            print(label)
+            labels[author] = label
+            dfPA_1 = dfPA_1.drop(search_author.index)
+            if (dfPA_1.shape[0]==0):
+                print("Search finish!")
+                return labels
+
+def constructHomoGraph():
     ### Load Raw Data ###
     paper_author_info = pd.read_csv("./labeled_papers_with_authors.csv")
     paper_reference_info = pd.read_csv("./paper_reference.csv")
@@ -61,54 +110,46 @@ def constructHeteroGraph():
 
     paper_author_info['author_id'] = paper_author_info['author_id'].apply(lambda x:'a' + str(int(x)))
     paper_author_info['paper_id'] = paper_author_info['paper_id'].apply(lambda x:'p' + str(int(x)))
+    paper_author_info['paper_id'] = paper_author_info['label'].apply(lambda x:'c' + str(int(x)))
 
     paper_reference_info['paper_id'] = paper_reference_info['paper_id'].apply(lambda x:'p' + str(int(x)))
     paper_reference_info['reference_id'] = paper_reference_info['reference_id'].apply(lambda x:'p' + str(int(x)))
-    # print(paper_author_info)
-    # print(paper_reference_info)
 
-    ### Edges Construction ###
+
+    ### Edge Construction ###
     print("Constructing edges...")
     source = []
     target = []
+    # Cooperation #
+    print("Searching for co-authors...")
+    author1, author2 = find_co_relation(paper_author_info)
+    # Citation #
+    print("Searching for referenced authors...")
+    author3, author4 = find_ref_relation(paper_author_info, paper_reference_info)
 
-    # paper -> paper (one_way)
-    ori_paper = paper_reference_info['paper_id'].tolist()
-    ref_paper = paper_reference_info['reference_id'].tolist()
-    source = source + ori_paper
-    target = target + ref_paper
-    # author -> paper (one-way)
-    author1 = paper_author_info['author_id'].tolist()
-    paper1 = paper_author_info['paper_id'].tolist()
-    source = source + author1
-    target = target + paper1
-    # author <-> author (two-way)
-    author2, author3 = find_co_relation(paper_author_info)
-    source = source + author2
-    target = target + author3
+    co_edges = pd.DataFrame({"source": author1, "target": author2})
+    ref_edges = pd.DataFrame({"source": author3, "target": author4})
 
-
-    square_edges = pd.DataFrame({"source":source, "target":target})
-    # print(square_edges)
-
-    ### Nodes Construction ###
-    print("Constructing nodes...")
-    # paper nodes (with labels)
-    paper_node_info = pd.DataFrame({"paper_id":paper_author_info['paper_id'], "label":paper_author_info['label']}).drop_duplicates().reset_index()
-    square_paper = pd.DataFrame({"conference":paper_node_info['label']}, index=paper_node_info['paper_id'])
-
-    # author nodes (no labels)
+    ### Node Construction ###
+    print("Searching for conferences that authors join...")
+    labels = find_author_label(paper_author_info)
+    labels = pd.DataFrame.from_dict(labels)
     author_node_info = pd.DataFrame({"author_id":paper_author_info['author_id']}).drop_duplicates().reset_index()
-    square_author = pd.DataFrame(index=author_node_info['author_id'])
+    nodes = pd.DataFrame(
+        {"label": [0]*author_node_info['author_id'].size},
+        index=author_node_info['author_id']
+        )
 
 
     ### Merge ###
     print("Constructing graph...")
     square_paper_and_author = StellarDiGraph(
-        {"paper":square_paper, "author":square_author},
-        square_edges)
+        {"author": nodes},
+        {"cooperate": co_edges, "cite": ref_edges}
+        )
     print('==================================')
     print(square_paper_and_author.info())
     print('==================================')
 
-    return square_paper_and_author
+
+constructHomoGraph()

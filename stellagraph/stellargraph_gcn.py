@@ -2,16 +2,18 @@ import pandas as pd
 from sklearn import model_selection
 import stellargraph as sg
 import tensorflow as tf
+from . import load_data_as_heteroGraph
 
 
 ### 
 # Data preparation 
 ###
-def load_my_data():
-    # your own code to load data into Pandas DataFrames, e.g. from CSV files or a database
-    ...
+# def load_my_data():
+#     # your own code to load data into Pandas DataFrames, e.g. from CSV files or a database
+#     ...
 
-nodes, edges, targets = load_my_data()
+# nodes, edges, targets = load_my_data()
+
 
 # Use scikit-learn to compute training and test sets
 train_targets, test_targets = model_selection.train_test_split(targets, train_size=0.5)
@@ -20,7 +22,8 @@ train_targets, test_targets = model_selection.train_test_split(targets, train_si
 # Graph machine learning model 
 ###
 # convert the raw data into StellarGraph's graph format for faster operations
-graph = sg.StellarGraph(nodes, edges)
+# graph = sg.StellarGraph(nodes, edges)
+graph = load_data_as_heteroGraph.constructHeteroGraph()
 
 generator = sg.mapper.FullBatchNodeGenerator(graph, method="gcn")
 
