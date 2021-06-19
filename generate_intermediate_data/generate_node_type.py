@@ -12,7 +12,7 @@ with open('all_author_to_papers.txt', 'r') as f:
             paper_list.add(cur_paper_id)
 
 
-with open('features/node_type.txt',"a+") as f:
+with open('../features/node_type.txt', "a+") as f:
     for author in author_list:
         f.write(author+" a\n")
     for paper in paper_list:

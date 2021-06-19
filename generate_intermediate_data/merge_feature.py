@@ -3,7 +3,7 @@
 
 feature_dict = {}
 
-with open('features/refer_feature.txt', 'r') as f:
+with open('../features/refer_feature.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         # print(split_content)
@@ -14,7 +14,7 @@ with open('features/refer_feature.txt', 'r') as f:
 
 max_length = 1
 
-with open('features/author_feature.txt', 'r') as f:
+with open('../features/author_feature.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         cur_paper_id = int(split_content[0])
@@ -30,7 +30,7 @@ with open('features/author_feature.txt', 'r') as f:
 #     while len(feature_dict[key]) != max_length:
 #         feature_dict[key].append(0)
 
-with open('features/total_feature_new.txt', 'a+') as f:
+with open('../features/total_feature_new.txt', 'a+') as f:
     for key in range(24251):
         f.write(str(key) + ' ')
         cur_feature_length = len(feature_dict[key])

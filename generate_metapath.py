@@ -14,7 +14,7 @@ class MetaPathGenerator:
         self.year_to_paper = dict()
 
     def read_data(self, dirpath):
-        with open('all_author_to_papers.txt','r') as f:
+        with open('generate_intermediate_data/all_author_to_papers.txt', 'r') as f:
             for line in f.readlines():
                 split_content = line.split(' ')
                 # print(split_content)
@@ -23,7 +23,7 @@ class MetaPathGenerator:
                 for feat_num in split_content[2:-1]:
                     self.author_to_paper[cur_author_id].append("v"+feat_num)
 
-        with open('all_paper_to_authors.txt','r') as f:
+        with open('generate_intermediate_data/all_paper_to_authors.txt', 'r') as f:
             for line in f.readlines():
                 split_content = line.split(' ')
                 # print(split_content)
@@ -41,7 +41,7 @@ class MetaPathGenerator:
                 for feat_num in split_content[2:-1]:
                     self.paper_to_paper[cur_paper_id].append("v"+feat_num)
 
-        with open('all_paper_to_year.txt','r') as f:
+        with open('generate_intermediate_data/all_paper_to_year.txt', 'r') as f:
             for line in f.readlines():
                 split_content = line.split(' ')
                 # print(split_content)
@@ -50,7 +50,7 @@ class MetaPathGenerator:
                 # for feat_num in split_content[2:-1]:
                 #     self.paper_to_year[cur_paper_id].append("i"+feat_num)
 
-        with open('all_year_to_paper.txt','r') as f:
+        with open('generate_intermediate_data/all_year_to_paper.txt', 'r') as f:
             for line in f.readlines():
                 split_content = line.split(' ')
                 # print(split_content)

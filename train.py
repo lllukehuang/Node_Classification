@@ -27,7 +27,7 @@ def get_feature(index):
 
 def get_labels():
     total_labels = []
-    with open('labels.txt', 'r') as f:
+    with open('generate_intermediate_data/labels.txt', 'r') as f:
         for line in f.readlines():
             split_content = line.split(' ')
             cur_label = int(split_content[1])

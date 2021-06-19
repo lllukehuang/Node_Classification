@@ -1,7 +1,7 @@
 import pandas as pd
 
 paper_to_author_dict = {}
-input_path = "author_paper_all_with_year.csv/author_paper_all_with_year.csv"
+input_path = "../author_paper_all_with_year.csv/author_paper_all_with_year.csv"
 references = pd.read_csv(input_path)
 total_length = len(references)
 for i in range(total_length):
@@ -12,7 +12,7 @@ for i in range(total_length):
     else:
         paper_to_author_dict[cur_paper] = [cur_author]
 
-with open('all_paper_to_authors.txt',"a+") as f:
+with open('all_paper_to_authors.txt', "a+") as f:
     for a in paper_to_author_dict:
         f.write(str(a)+" ")
         authors = paper_to_author_dict[a]

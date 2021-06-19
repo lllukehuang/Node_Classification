@@ -1,5 +1,5 @@
 feature_dict = {}
-with open('features/graph.emb', 'r') as f:
+with open('../features/graph.emb', 'r') as f:
     f.readline()
     for line in f.readlines():
         split_content = line.split(' ')
@@ -9,7 +9,7 @@ with open('features/graph.emb', 'r') as f:
         for feat_num in split_content[2:]:
             feature_dict[cur_paper_id].append(float(feat_num))
 
-with open('features/refer_feature.txt', 'a+') as f:
+with open('../features/refer_feature.txt', 'a+') as f:
     for key in range(24251):
         f.write(str(key)+' ')
         if key in feature_dict:

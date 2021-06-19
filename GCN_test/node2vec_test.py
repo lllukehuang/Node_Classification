@@ -16,7 +16,7 @@ from stellargraph import datasets
 from IPython.display import display, HTML
 
 # add dataset
-input_path = "features/author_paper_year.csv"
+input_path = "../features/author_paper_year.csv"
 author_paper = pd.read_csv(input_path)
 author_to_paper_edge = author_paper[["author_id","paper_id"]]
 author_to_paper_edge = author_to_paper_edge.rename(columns={'author_id':'source','paper_id':'target'})

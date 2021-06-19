@@ -26,7 +26,7 @@ for i in range(total_length):
     else:
         pred_paper_dict[cur_author] = [cur_paper]
 # print(author_list)
-with open('all_author_to_papers.txt',"a+") as f:
+with open('generate_intermediate_data/all_author_to_papers.txt', "a+") as f:
     for a in author_list:
         f.write(str(a)+" ")
         pred_papers = pred_paper_dict[a]

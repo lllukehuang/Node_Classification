@@ -1,7 +1,7 @@
 import pandas as pd
 
 total_reference_dict = {}
-input_path = "origin_data/paper_reference.csv"
+input_path = "../origin_data/paper_reference.csv"
 references = pd.read_csv(input_path)
 total_length = len(references)
 for i in range(total_length):
@@ -13,7 +13,7 @@ for i in range(total_length):
         total_reference_dict[cur_paper] = [cur_reference]
 
 
-with open('features/all_paper_reference.txt',"a+") as f:
+with open('../features/all_paper_reference.txt', "a+") as f:
     for key in range(24251):
         f.write(str(key)+' ')
         if key in total_reference_dict:

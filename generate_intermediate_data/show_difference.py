@@ -1,6 +1,6 @@
 import os
 
-total_results = os.listdir('mid_result')
+total_results = os.listdir('../mid_result')
 
 total_res = {}
 for i in total_results:

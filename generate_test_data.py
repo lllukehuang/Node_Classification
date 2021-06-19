@@ -47,7 +47,7 @@ with open('features/total_feature_l.txt', 'r') as f:
             feature_dict[cur_paper_id].append(float(feat_num))
 
 true_labels = {}
-with open('labels.txt','r') as f:
+with open('generate_intermediate_data/labels.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         cur_paper_id = int(split_content[0])
@@ -81,7 +81,7 @@ pred_num = 0
 
 model.eval()
 
-with open('papers_to_pred.txt','r') as f:
+with open('generate_intermediate_data/papers_to_pred.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         # print(split_content)

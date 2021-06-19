@@ -4,14 +4,14 @@ import numpy as np
 import pandas as pd
 
 true_labels = {}
-with open('labels.txt','r') as f:
+with open('generate_intermediate_data/labels.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         cur_paper_id = int(split_content[0])
         true_labels[cur_paper_id] = int(split_content[1])
 
 pred_labels = {}
-with open('mid_result/final_19_new_new.txt','r') as f:
+with open('mid_result/final_19_new_new.txt', 'r') as f:
 # with open('mid_result/all_final.txt','r') as f:
 # with open('mid_result/512_1024_1024_89.txt','r') as f:
     for line in f.readlines():
@@ -24,7 +24,7 @@ csv_list = []
 true_num = 0
 pred_num = 0
 
-with open('papers_to_pred.txt','r') as f:
+with open('generate_intermediate_data/papers_to_pred.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         # print(split_content)

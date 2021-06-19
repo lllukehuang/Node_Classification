@@ -1,7 +1,7 @@
 import pandas as pd
 
 total_feature_list = []
-input_path = "author_paper_all_with_year.csv/author_paper_all_with_year.csv"
+input_path = "../author_paper_all_with_year.csv/author_paper_all_with_year.csv"
 references = pd.read_csv(input_path)
 total_length = len(references)
 for i in range(total_length):
@@ -18,7 +18,7 @@ df = pd.DataFrame(total_feature_list,columns=["author_id","paper_id","year"])
 df.to_csv("features/author_paper_year.csv",index=False)
 
 total_feature_list = []
-input_path = "origin_data/paper_reference.csv"
+input_path = "../origin_data/paper_reference.csv"
 references = pd.read_csv(input_path)
 total_length = len(references)
 for i in range(total_length):
@@ -35,7 +35,7 @@ df = pd.DataFrame(total_feature_list,columns=["paper_id","reference_id"])
 df.to_csv("features/paper_paper.csv",index=False)
 
 total_feature_list = []
-with open('labels.txt','r') as f:
+with open('labels.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         cur_paper_id = "v" + split_content[0]

@@ -30,12 +30,12 @@ class SimpleClassifier(nn.Module):
         res = self.out(h)
         return res
 
-weight_path = 'weights/test36_99.pth'
+weight_path = '../weights/test36_99.pth'
 model = torch.load(weight_path)
 
 feature_dict = {}
 # with open('features/total_feature_l.txt', 'r') as f:
-with open('features/total_feature_all_meta_512_ABC.txt', 'r') as f:
+with open('../features/total_feature_all_meta_512_ABC.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         # print(split_content)
@@ -69,7 +69,7 @@ def get_feature(index):
 
 model.eval()
 
-with open('mid_result/ABC_2048_99.txt','a+') as f:
+with open('../mid_result/ABC_2048_99.txt', 'a+') as f:
     X = [get_feature(i) for i in range(24251)]
     testX = torch.Tensor(X)
     with torch.no_grad():

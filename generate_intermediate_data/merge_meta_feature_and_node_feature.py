@@ -1,7 +1,7 @@
 feature_dict = {}
 
 # node2vec
-with open('features/refer_feature.txt', 'r') as f:
+with open('../features/refer_feature.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         # print(split_content)
@@ -11,7 +11,7 @@ with open('features/refer_feature.txt', 'r') as f:
             feature_dict[cur_paper_id].append(float(feat_num))
 
 # metapath
-with open('features/metapath_feature_paper.txt', 'r') as f:
+with open('../features/metapath_feature_paper.txt', 'r') as f:
     f.readline()
     f.readline()
     for line in f.readlines():
@@ -28,7 +28,7 @@ with open('features/metapath_feature_paper.txt', 'r') as f:
 #     while len(feature_dict[key]) != max_length:
 #         feature_dict[key].append(0)
 
-with open('features/total_feature_meta.txt', 'a+') as f:
+with open('../features/total_feature_meta.txt', 'a+') as f:
     for key in range(24251):
         f.write(str(key) + ' ')
         cur_feature_length = len(feature_dict[key])

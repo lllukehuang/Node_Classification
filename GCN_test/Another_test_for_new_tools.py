@@ -6,7 +6,7 @@ import numpy as np
 from sklearn import model_selection, preprocessing
 
 # 加载图数据
-input_path = "features/author_paper_year.csv"
+input_path = "../features/author_paper_year.csv"
 author_paper = pd.read_csv(input_path)
 author_to_paper_edge = author_paper[["author_id","paper_id"]]
 # author_nodes = author_paper[["author_id"]]

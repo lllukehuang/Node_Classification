@@ -4,7 +4,7 @@ import tqdm
 import pandas as pd
 
 paper_to_author = {}
-with open('all_paper_to_authors.txt','r') as f:
+with open('../generate_intermediate_data/all_paper_to_authors.txt', 'r') as f:
     for line in f.readlines():
         split_content = line.split(' ')
         # print(split_content)
@@ -15,7 +15,7 @@ with open('all_paper_to_authors.txt','r') as f:
 
 # print(paper_to_author)
 
-with open('features/paper_features.csv','a+') as f:
+with open('../features/paper_features.csv', 'a+') as f:
     f.write('paper_id'+',')
     for i in range(42613):
         cur_key = 'w'+str(i)
