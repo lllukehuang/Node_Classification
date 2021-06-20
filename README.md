@@ -8,6 +8,11 @@ Using metapath2vec to get the node's feature, and build a linear classifier for 
 
 We also tried some model integration method to get a more accurate result.
 
+## Experiment Environment
+
+- Ubuntu 16.04
+- NVIDIA GTX1080TI
+
 ## How to reproduce our work
 
 1. Generate the metapath. You can change corresponding metapath categories in [generate_metapath.py](./generate_metapath.py)
